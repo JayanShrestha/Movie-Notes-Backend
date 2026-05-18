@@ -1,8 +1,11 @@
 import express from "express";
 import bodyParser from "body-parser";
-import {fetchMoviesById,fetchPopularMovies} from "./src/services/tmdb.service.js";
+import cors from "cors";
+import tmdbRoutes from "./src/routes/movies.routes.js";
 
 const app = express();
+app.use(cors());
+app.use(express.json());
 const port = 3000;
 const saltRounds = 10;
 
@@ -10,35 +13,7 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended:true}));
 
 //testing backend
-app.get('/',(req,res)=>{
-    res.json("Backend is Okay ! This is running");
-});
-
-
-//getting movie by id
-app.get('/tmdb',async (req,res)=>{
-    try{
-    const result = await fetchMoviesById(550);
-    res.json(result);
-    }
-    catch(err){
-        console.log(err);
-        throw new Error;
-    }
-}
-)
-//getting movie by popularity
-app.get('/tmdb/popular',async (req,res)=>{
-    try{
-    const result = await fetchPopularMovies();
-    res.json(result);
-    }
-    catch(err){
-        console.log(err);
-        throw new Error;
-    }
-}
-)
+app.use("/api/tmdb", tmdbRoutes);
 
 app.listen(port,()=>{
     console.log(`The Server is running on port: ${port}`);
