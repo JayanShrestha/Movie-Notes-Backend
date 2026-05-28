@@ -19,6 +19,7 @@ catch(err){
   throw new Error("Error fetching movie data from TMDB");
 }
 }
+
 //function to fetch movie data using popularity
 export async function fetchPopularMovies(page:number = 1):Promise<TMDBPopularResponse> {
   try{

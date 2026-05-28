@@ -3,13 +3,13 @@ import {getMovieById, getPopularMovies} from "../controllers/movies.controller.j
 
 const router = Router();
 
-// Get /api/tmdb/movie/:id
+// Get /tmdb/movie/:id
 router.get("/movie/:id", getMovieById);
 
-// Get /api/tmdb/popular
+// Get /tmdb/popular
 router.get("/popular", getPopularMovies);
 
-//Get for testing
+//Get /tmdbfor testing
 router.get("/", (req, res) => {
     res.json("TMDB Routes are working fine !");
 })

@@ -11,9 +11,14 @@ const saltRounds = 10;
 
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended:true}));
+app.use(cors({
+    origin:"*",
+    methods:["GET","POST","PUT","DELETE", "OPTIONS"],
+    allowedHeaders:["Content-Type", "Authorization"],
+}))
 
 //testing backend
-app.use("/api/tmdb", tmdbRoutes);
+app.use("/tmdb", tmdbRoutes);
 
 app.listen(port,()=>{
     console.log(`The Server is running on port: ${port}`);

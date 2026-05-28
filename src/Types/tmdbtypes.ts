@@ -62,3 +62,33 @@ export interface TMDBPopularResponse{
   vote_average: number;
   vote_count: number;
 }
+
+export interface NormalizedMovie {
+  id: number;
+  title:string;
+  overview: string;
+  posterUrl: string;
+  backdropUrl: string;
+  genres: string[];
+  releaseDate: string;
+  runtime: number;
+  rating: number;
+  voteCount: number;
+  tagline: string;
+  status: string;
+}
+
+export interface NormalizedPopularMovie {
+id: number;
+title: string;
+posterUrl: string;
+releaseYear: string;
+rating: number;
+}
+
+export interface NormalizedSeachResult {
+  id: number;
+  title: string;
+  posterUrl: string;
+  releaseYear: string;
+}
