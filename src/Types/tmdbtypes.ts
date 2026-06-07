@@ -67,28 +67,33 @@ export interface NormalizedMovie {
   id: number;
   title:string;
   overview: string;
-  posterUrl: string;
-  backdropUrl: string;
-  genres: string[];
-  releaseDate: string;
-  runtime: number;
-  rating: number;
-  voteCount: number;
-  tagline: string;
-  status: string;
+  poster_path: string | null;
+  backdrop_path: string | null;
+  genres: {id: number; name: string}[];
+  release_date: string;
+  runtime: number | null;
+  vote_average: number;
+  vote_count: number;
+}
+
+export interface NormalizedPopularResponse{
+  page: number;
+  results: NormalizedPopularMovie[];
+  total_pages: number;
+  total_results: number;
 }
 
 export interface NormalizedPopularMovie {
 id: number;
 title: string;
-posterUrl: string;
-releaseYear: string;
-rating: number;
+poster_path: string | null;
+release_date: string;
+vote_average: number;
 }
 
-export interface NormalizedSeachResult {
+export interface NormalizedSearchResult {
   id: number;
   title: string;
-  posterUrl: string;
-  releaseYear: string;
+  poster_path: string | null;
+  release_date: string;
 }
