@@ -1,5 +1,6 @@
 import { Router } from "express";
-import {getMovieById, getPopularMovies} from "../controllers/movies.controller.js";
+import {getMovieById, getPopularMovies, getSearchResults} from "../controllers/movies.controller.js";
+import { get } from "node:http";
 
 const router = Router();
 
@@ -9,9 +10,13 @@ router.get("/movie/:id", getMovieById);
 // Get /tmdb/popular
 router.get("/popular", getPopularMovies);
 
+// Get /tmdb/search
+router.get("/search", getSearchResults);
+
 //Get /tmdbfor testing
 router.get("/", (req, res) => {
     res.json("TMDB Routes are working fine !");
 })
+
 
 export default router;
