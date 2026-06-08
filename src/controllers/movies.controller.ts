@@ -1,5 +1,5 @@
 import {Request, Response} from "express";
-import {fetchMoviesById, fetchPopularMovies} from "../services/tmdb.service.js";
+import {fetchMoviesById, fetchPopularMovies, fetchSearchResults} from "../services/tmdb.service.js";
 
 export async function getMovieById(req:Request, res:Response){
     try{
@@ -20,5 +20,17 @@ export async function getPopularMovies(req:Request, res:Response){
     } catch (error) {       
         console.error(`Error fetching popular movies: ${error}`);
         res.status(500).json({ error: "Failed to fetch popular movies" });
+    }
+}
+
+export async function getSearchResults(req: Request, res: Response){
+    try{
+        const query = req.query.query as string;
+        const page = req.query.page ? Number(req.query.page) : 1;
+        const searchResults = await fetchSearchResults(query, page);
+        res.json(searchResults);
+    } catch (error) {
+        console.error(`Error fetching search results: ${error}`);
+        res.status(500).json({ error: "Failed to fetch search results" });
     }
 }
