@@ -4,3 +4,4 @@ node_modules/
 #Production build Output
 dist/
 build/
+/generated/prisma
