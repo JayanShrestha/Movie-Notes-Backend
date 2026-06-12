@@ -17,7 +17,7 @@ app.use(cors({
     allowedHeaders:["Content-Type", "Authorization"],
 }))
 
-//testing backend
+//testing backend on tmdb routes
 app.use("/tmdb", tmdbRoutes);
 
 app.listen(port,()=>{
