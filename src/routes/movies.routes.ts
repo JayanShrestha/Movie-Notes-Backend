@@ -1,6 +1,5 @@
 import { Router } from "express";
 import {getMovieById, getPopularMovies, getSearchResults} from "../controllers/movies.controller.js";
-import { get } from "node:http";
 
 const router = Router();
 
