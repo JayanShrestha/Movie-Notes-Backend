@@ -2,6 +2,8 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import tmdbRoutes from "./src/routes/movies.routes.js";
+import authRoutes from "./src/routes/auth.routes.js";
+import reviewsRoutes from "./src/routes/reviews.routes.js";
 
 const app = express();
 app.use(cors());
@@ -19,6 +21,12 @@ app.use(cors({
 
 //testing backend on tmdb routes
 app.use("/tmdb", tmdbRoutes);
+
+// Auth routes
+app.use("/auth", authRoutes);
+
+// Reviews routes
+app.use("/reviews", reviewsRoutes);
 
 app.listen(port,()=>{
     console.log(`The Server is running on port: ${port}`);

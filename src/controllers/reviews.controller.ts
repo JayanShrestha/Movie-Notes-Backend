@@ -1,5 +1,5 @@
 import {Request, Response} from "express";
-import {createReview, getReviewsByMovieId, updateReview, deleteReview} from "../services/reviews.service.js";
+import {createReview, readReview, updateReview, deleteReview} from "../services/reviews.service.js";
 
 export async function postReview(req:Request, res:Response){
     try{
@@ -12,10 +12,12 @@ export async function postReview(req:Request, res:Response){
     }
 }
 
-export async function getReviews(req:Request, res:Response){
+export async function getReviewsByMovieId(req:Request, res:Response){
     try{
-    const movieId = req.params.movieId;
-        const reviews = await getReviewsByMovieId(movieId.toString());
+        const movieIdStr = Array.isArray(req.params.movieId) ? req.params.movieId[0] : (req.params.movieId ?? '');
+        const movieId = parseInt(movieIdStr, 10);
+        if (Number.isNaN(movieId)) return res.status(400).json({ error: 'Invalid movieId' });
+        const reviews = await readReview(movieId);
         res.json(reviews);
     } catch (error) {
         console.error(`Error fetching reviews: ${error}`);
@@ -23,9 +25,11 @@ export async function getReviews(req:Request, res:Response){
     }
 }
 
-export async function updateReview(req:Request, res:Response){
+export async function updateReviewById(req:Request, res:Response){
     try{
-        const reviewId = req.params.reviewId;
+        const reviewIdStr = Array.isArray(req.params.reviewId) ? req.params.reviewId[0] : (req.params.reviewId ?? '');
+        const reviewId = parseInt(reviewIdStr, 10);
+        if (Number.isNaN(reviewId)) return res.status(400).json({ error: 'Invalid reviewId' });
         const { userId, movieId, rating, reviewText } = req.body;
         const review = await updateReview(reviewId, userId, movieId, rating, reviewText);
         res.json(review);
@@ -35,9 +39,11 @@ export async function updateReview(req:Request, res:Response){
     }
 }
 
-export async function deleteReview(req:Request, res:Response){
+export async function deleteReviewById(req:Request, res:Response){
     try{
-        const reviewId = req.params.reviewId;
+        const reviewIdStr = Array.isArray(req.params.reviewId) ? req.params.reviewId[0] : (req.params.reviewId ?? '');
+        const reviewId = parseInt(reviewIdStr, 10);
+        if (Number.isNaN(reviewId)) return res.status(400).json({ error: 'Invalid reviewId' });                                                               
         await deleteReview(reviewId);
         res.json({ message: "Review deleted successfully" });
     } catch (error) {
