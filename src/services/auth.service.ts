@@ -21,7 +21,7 @@ export async function registerUser(email: string, username: string, password: st
       
         
     } catch (error) {
-        throw new Error('User Already Exists, Failed to register User');
+        throw error;
     }
 }
 
@@ -41,7 +41,7 @@ export async function loginUser(email: string, password: string){
         console.log("Registered User:", {id: safeUser.id, email: safeUser.email});
         return safeUser;
     } catch (error) {
-        throw new Error('Incorrect email or password, Failed to log in User');
+        throw error;
     }
 }
 
