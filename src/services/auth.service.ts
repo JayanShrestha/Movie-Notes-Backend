@@ -4,7 +4,7 @@ import {prisma} from '../db.js';
 
 const saltRounds =10;
 
-export async function registerUser(email: string, username: string, password: string){
+export async function registerUser(email: string, username: string, password: string):Promise<{id: number, email: string, name: string | null}>{
     try{
       
             const hashedPassword = await bcrypt.hash(password, saltRounds);
@@ -15,8 +15,8 @@ export async function registerUser(email: string, username: string, password: st
                 password: hashedPassword
             }
         });
-        const {...safeUser, password:PW} = user;
-        console.log("Registered User:", {id: safeUser.id, email: safeUser.email});
+        const {password:PW, ...safeUser} = user;
+        console.log("Registered User:", {id: safeUser.id, email: safeUser.email, name: safeUser.name});
         return safeUser;
       
         
@@ -25,7 +25,7 @@ export async function registerUser(email: string, username: string, password: st
     }
 }
 
-export async function loginUser(email: string, password: string){
+export async function loginUser(email: string, password: string):Promise<{id: number, email: string, name: string | null}>{
     try{
         const user = await prisma.users.findUnique({
             where: { email }
@@ -37,8 +37,8 @@ export async function loginUser(email: string, password: string){
         if (!isMatch) {
             throw new Error('Invalid email or password');
         }
-        const {...safeUser, password:PW} = user;
-        console.log("Registered User:", {id: safeUser.id, email: safeUser.email});
+        const { password:PW, ...safeUser} = user;
+        console.log("Logged in User:", {id: safeUser.id, email: safeUser.email, name: safeUser.name});
         return safeUser;
     } catch (error) {
         throw error;
@@ -46,7 +46,7 @@ export async function loginUser(email: string, password: string){
 }
 
 
-export async function checkUserExists( email: string){
+export async function checkUserExists( email: string):Promise<boolean>{
     try{
         const checkuser = await prisma.users.findUnique({
             where: { email }
