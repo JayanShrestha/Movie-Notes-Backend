@@ -29,9 +29,9 @@ model Movies {
   release_date String   @db.VarChar(20)
   runtime      Int?     @db.Integer
   vote_average Float?
-  vote_count Int?
-  createdAt DateTime     @default(now()) @db.Timestamptz(6)
-  updatedAt DateTime @updatedAt @db.Timestamptz(6)
+  vote_count   Int?
+  createdAt    DateTime     @default(now()) @db.Timestamptz(6)
+  updatedAt    DateTime @updatedAt @db.Timestamptz(6)
 
 
 

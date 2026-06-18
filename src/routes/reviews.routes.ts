@@ -3,6 +3,12 @@ import { postReview, getReviewsByMovieId, updateReviewById, deleteReviewById } f
 
 const router = Router();
 
+//testing reviews routes
+router.get("/", (req, res)=>{
+    res.json("Reviews Routes are working fine !");
+});
+
+
 // Create Review
 router.post("/review", postReview);
 
