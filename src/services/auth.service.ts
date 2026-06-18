@@ -15,8 +15,9 @@ export async function registerUser(email: string, username: string, password: st
                 password: hashedPassword
             }
         });
-        console.log("Registered User:", user);
-        return user;
+        const {...safeUser, password:PW} = user;
+        console.log("Registered User:", {id: safeUser.id, email: safeUser.email});
+        return safeUser;
       
         
     } catch (error) {
@@ -36,8 +37,9 @@ export async function loginUser(email: string, password: string){
         if (!isMatch) {
             throw new Error('Invalid email or password');
         }
-        console.log("Logged in User:", user);
-        return user;
+        const {...safeUser, password:PW} = user;
+        console.log("Registered User:", {id: safeUser.id, email: safeUser.email});
+        return safeUser;
     } catch (error) {
         throw new Error('Incorrect email or password, Failed to log in User');
     }
