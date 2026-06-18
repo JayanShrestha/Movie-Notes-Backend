@@ -12,8 +12,6 @@ export async function registerUser(req: Request, res: Response){
             return res.status(400).json({ error: "User already exists" });
         }
         await register(email, username, password);
-        // Here you would typically add code to save the user to your database
-        // For this example, we'll just return a success message
         res.status(201).json({ message: "User registered successfully!" });
 
     }
@@ -26,7 +24,7 @@ export async function registerUser(req: Request, res: Response){
 export async function loginUser(req: Request, res: Response){
     try{
         const {email, password} = req.body;
-          if (!email || !username || !password) {
+          if (!email || !password) {
          return res.status(400).json({ error: "email and password are required" });
        }
         const userExists = await checkUserExists(email);
@@ -34,8 +32,6 @@ export async function loginUser(req: Request, res: Response){
             return res.status(400).json({ error: "User does not exist" });
         }
         const user = await login(email, password);
-        // Here you would typically add code to verify the user's credentials
-        // For this example, we'll just return a success message
         res.status(200).json({ message: "User logged in successfully", user });
     }
     catch(error){
