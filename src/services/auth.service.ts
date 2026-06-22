@@ -35,7 +35,7 @@ export async function loginUser(email: string, password: string):Promise<{id: nu
         }
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            throw new Error('Invalid email or password');
+            throw new Error('Invalid password');
         }
         const { password:PW, ...safeUser} = user;
         console.log("Logged in User:", {id: safeUser.id, email: safeUser.email, name: safeUser.name});
