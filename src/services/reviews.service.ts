@@ -17,11 +17,11 @@ export async function createReview(userId: number, movieId: number, rating: numb
     }
 }
 
-export async function readReview(movieId: number) {
+export async function readReview(userId: number, movieId: number) {
 
     try {
         const reviews = await prisma.reviews.findMany({
-            where: { movie_Id: movieId },   
+            where: { user_Id: userId, movie_Id: movieId},   
         });
         return reviews;
     } catch (error) {
@@ -30,14 +30,15 @@ export async function readReview(movieId: number) {
     }
 }
 
-export async function updateReview(reviewId: number, userId: number, movieId: number, rating: number, reviewText?: string){
+export async function updateReview(reviewId: number, userId: number, reviewText?: string){
     try {
+        const review = await prisma.reviews.findUnique({where: {id:reviewId}});
+        if(!review || review.user_Id !== userId){
+            throw new Error("Forbidden");
+        }
         const updated = await prisma.reviews.update({
             where: { id: reviewId },
             data: {
-                user_Id: userId,
-                movie_Id: movieId,
-                rating,
                 review_text: reviewText,
             },
         });
@@ -48,11 +49,18 @@ export async function updateReview(reviewId: number, userId: number, movieId: nu
     }
 }
 
-export async function deleteReview(reviewId: number){
+export async function deleteReview(reviewId: number, userId: number){
     try {
-        await prisma.reviews.delete({
+        const review = await prisma.reviews.findUnique({
             where: { id: reviewId },
         });
+        if(!review || review.user_Id !== userId){
+            throw new Error("Forbidden");
+        }
+        const deletedReview =  await prisma.reviews.delete({
+            where: {id: reviewId}
+        })
+        return deleteReview;
     }
         catch (error) {
         console.error(`Error deleting review: ${error}`);

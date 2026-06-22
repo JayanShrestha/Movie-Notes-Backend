@@ -39,7 +39,7 @@ export async function fetchPopularMovies(page:number = 1):Promise<NormalizedPopu
 }
 }
 
-export async function fetchSearchResults(query:string, page:number = 1):Promise<NormalizedSearchResponse> {
+export async function fetchSearchResults(query:string, page:number):Promise<NormalizedSearchResponse> {
   try{
     const response = await axios.get<TMDBSearchResponse>(Base_URL+"/search/movie",{params:{ 
       api_key:api_key,

@@ -1,5 +1,6 @@
 import Router from "express";
 import { postReview, getReviewsByMovieId, updateReviewById, deleteReviewById } from "../controllers/reviews.controller.js";
+import {authenticate} from "../middleware/auth.js";
 
 const router = Router();
 
@@ -10,15 +11,15 @@ router.get("/", (req, res)=>{
 
 
 // Create Review
-router.post("/review", postReview);
+router.post("/post", authenticate, postReview);
 
 // Get Reviews for a Movie
-router.get("/reviews/:movieId", getReviewsByMovieId);
+router.get("/get", authenticate, getReviewsByMovieId);
 
 // Update Review
-router.put("/review/:reviewId", updateReviewById);
+router.put("/put", authenticate, updateReviewById);
 
 // Delete Review
-router.delete("/review/:reviewId", deleteReviewById); 
+router.delete("/delete", authenticate, deleteReviewById);
 
 export default router;
