@@ -1,11 +1,11 @@
 import {prisma} from "../db.js";
 
-export async function createReview(userId: number, movieId: number, rating: number, reviewText?: string) {
+export async function createReview(userId: number, tmdbId: number, rating: number, reviewText?: string) {
     try {
         const review = await prisma.reviews.create({
             data: {
                 user_Id: userId,
-                movie_Id: movieId,
+                tmdb_id: tmdbId,
                 rating,
                 review_text: reviewText,
             },
@@ -17,11 +17,11 @@ export async function createReview(userId: number, movieId: number, rating: numb
     }
 }
 
-export async function readReview(userId: number, movieId: number) {
+export async function readReview(userId: number, tmdbId: number) {
 
     try {
         const reviews = await prisma.reviews.findMany({
-            where: { user_Id: userId, movie_Id: movieId},   
+            where: { user_Id: userId, tmdb_Id: tmdbId},   
         });
         return reviews;
     } catch (error) {

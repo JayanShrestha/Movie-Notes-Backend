@@ -3,8 +3,8 @@ import {createReview, readReview, updateReview, deleteReview} from "../services/
 
 export async function postReview(req:Request, res:Response){
     try{
-        const { userId, movieId, rating, reviewText } = req.body;
-        const review = await createReview(userId, movieId, rating, reviewText);
+        const { userId, tmdbId, rating, reviewText } = req.body;
+        const review = await createReview(userId, tmdbId, rating, reviewText);
         res.status(201).json(review);
     } catch (error) {
         console.error(`Error creating review: ${error}`);
@@ -14,8 +14,8 @@ export async function postReview(req:Request, res:Response){
 
 export async function getReviewsByMovieId(req:Request, res:Response){
     try{
-        const {userId, movieId} = req.body;
-        const reviews = await readReview(userId, movieId);
+        const {userId, tmdbId} = req.body;
+        const reviews = await readReview(userId, tmdbId);
         res.json(reviews);
     } catch (error) {
         console.error(`Error fetching reviews: ${error}`);
