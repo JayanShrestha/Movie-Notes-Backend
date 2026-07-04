@@ -40,8 +40,8 @@ model Movies {
 
 model Reviews {
   id       Int      @id @default(autoincrement()) @db.Integer @unique
-  user_Id    Int        //owner
-  tmdb_id   Int
+  user_Id    Int       //owner
+  tmdb_id   Int       
   rating    Float
   review_text   String?  @db.Text
   createdAt DateTime     @default(now()) @db.Timestamptz(6)

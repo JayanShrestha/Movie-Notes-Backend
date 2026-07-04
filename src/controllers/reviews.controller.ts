@@ -1,9 +1,16 @@
 import {Request, Response} from "express";
 import {createReview, readReview, updateReview, deleteReview} from "../services/reviews.service.js";
+import {checkTmdbIdExists, createMovie} from "../services/movies.service.js";
+import {fetchMoviesById} from "../services/tmdb.service.js";
 
 export async function postReview(req:Request, res:Response){
     try{
         const { userId, tmdbId, rating, reviewText } = req.body;
+        const movieExists = await checkTmdbIdExists(tmdbId);
+        if(!movieExists){
+            const movieData = await fetchMoviesById(tmdbId);
+            await createMovie(movieData);
+        };
         const review = await createReview(userId, tmdbId, rating, reviewText);
         res.status(201).json(review);
     } catch (error) {
