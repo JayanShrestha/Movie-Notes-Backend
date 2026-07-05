@@ -99,9 +99,14 @@ export async function checkReviewOwnership(userId: number, tmdbId: number): Prom
         const reviews = await prisma.reviews.findFirst({
             where: { user_Id: userId, tmdb_id: tmdbId },
         });
-        return !!reviews;
+       if(!reviews) {
+           return false;
+       }
+        else {
+            return true;
+        }
     } catch (error) {
         console.error(`Error checking review ownership: ${error}`);
-        return false;
+        throw new Error ("Error checking review ownership");
     }
 }
