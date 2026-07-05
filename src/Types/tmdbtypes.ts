@@ -133,6 +133,6 @@ export interface Review {
   userId: number,
   tmdbId: number,
   rating: number,
-  reviewText: string,
+  reviewText?: string,
 
 }
