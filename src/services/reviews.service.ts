@@ -1,11 +1,11 @@
 import {prisma} from "../db.js";
 
-export async function createReview(userId: number, movieId: number, rating: number, reviewText?: string) {
+export async function createReview(userId: number, tmdbId: number, rating: number, reviewText?: string) {
     try {
         const review = await prisma.reviews.create({
             data: {
                 user_Id: userId,
-                movie_Id: movieId,
+                tmdb_id: tmdbId,
                 rating,
                 review_text: reviewText,
             },
@@ -17,20 +17,45 @@ export async function createReview(userId: number, movieId: number, rating: numb
     }
 }
 
-export async function readReview(userId: number, movieId: number) {
+export async function readReviewByMovieId(tmdbId: number) {
 
     try {
-        const reviews = await prisma.reviews.findMany({
-            where: { user_Id: userId, movie_Id: movieId},   
+        const review = await prisma.reviews.findMany({
+            where: {tmdb_id: tmdbId},   
         });
-        return reviews;
+        return review;
     } catch (error) {
-        console.error(`Error fetching reviews: ${error}`);
-        throw new Error("Failed to fetch reviews");
+        console.error(`Error fetching review: ${error}`);
+        throw new Error("Failed to fetch review");
     }
 }
 
-export async function updateReview(reviewId: number, userId: number, reviewText?: string){
+export async function readReviewByUserId(userId: number) {
+
+    try {
+        const review = await prisma.reviews.findMany({
+            where: {user_Id: userId},  
+        });
+        return review;
+    } catch (error) {
+        console.error(`Error fetching review: ${error}`);
+        throw new Error("Failed to fetch review");
+    }
+}
+
+export async function readReviewByIds(userId: number, tmdbId: number){
+     try {
+        const review = await prisma.reviews.findFirst({
+            where: {user_Id: userId, tmdb_id: tmdbId},  
+        });
+        return review;
+    } catch (error) {
+        console.error(`Error fetching review: ${error}`);
+        throw new Error("Failed to fetch review");
+    }
+}
+
+export async function updateReview(reviewId: number, userId: number, rating: number, reviewText?: string){
     try {
         const review = await prisma.reviews.findUnique({where: {id:reviewId}});
         if(!review || review.user_Id !== userId){
@@ -39,6 +64,7 @@ export async function updateReview(reviewId: number, userId: number, reviewText?
         const updated = await prisma.reviews.update({
             where: { id: reviewId },
             data: {
+                rating: rating,
                 review_text: reviewText,
             },
         });
@@ -55,15 +81,30 @@ export async function deleteReview(reviewId: number, userId: number){
             where: { id: reviewId },
         });
         if(!review || review.user_Id !== userId){
-            throw new Error("Forbidden");
+            throw new Error("Forbidden, invalid user or review does not exist");
         }
         const deletedReview =  await prisma.reviews.delete({
             where: {id: reviewId}
         })
-        return deleteReview;
+        return deletedReview;
     }
         catch (error) {
         console.error(`Error deleting review: ${error}`);
         throw new Error("Failed to delete review");
+    }
+}
+
+export async function checkReviewOwnership(userId: number, tmdbId: number): Promise<boolean> {
+    try {
+        const reviews = await prisma.reviews.findFirst({
+            where: { user_Id: userId, tmdb_id: tmdbId },
+        });
+        if(!reviews){
+            return false;
+        }
+        return true;
+    } catch (error) {
+        console.error(`Error checking review ownership: ${error}`);
+        throw new Error("Failed to check review ownership");
     }
 }

@@ -17,7 +17,7 @@ router.post("/post", authenticate, postReview);
 router.get("/get", authenticate, getReviewsByMovieId);
 
 // Update Review
-router.put("/put", authenticate, updateReviewById);
+router.put("/update", authenticate, updateReviewById);
 
 // Delete Review
 router.delete("/delete", authenticate, deleteReviewById);
