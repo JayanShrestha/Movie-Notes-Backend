@@ -20,7 +20,7 @@ export async function createReview(userId: number, tmdbId: number, rating: numbe
 export async function readReviewByMovieId(tmdbId: number) {
 
     try {
-        const review = await prisma.reviews.findFirst({
+        const review = await prisma.reviews.findMany({
             where: {tmdb_id: tmdbId},   
         });
         return review;
@@ -33,7 +33,7 @@ export async function readReviewByMovieId(tmdbId: number) {
 export async function readReviewByUserId(userId: number) {
 
     try {
-        const review = await prisma.reviews.findFirst({
+        const review = await prisma.reviews.findMany({
             where: {user_Id: userId},  
         });
         return review;
