@@ -33,7 +33,7 @@ CREATE TABLE "Movies" (
 CREATE TABLE "Reviews" (
     "id" SERIAL NOT NULL,
     "user_Id" INTEGER NOT NULL,
-    "movie_Id" INTEGER NOT NULL,
+    "tmdb_id" INTEGER NOT NULL,
     "rating" DOUBLE PRECISION NOT NULL,
     "review_text" TEXT,
     "createdAt" TIMESTAMPTZ(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -51,8 +51,14 @@ CREATE UNIQUE INDEX "Users_name_key" ON "Users"("name");
 -- CreateIndex
 CREATE UNIQUE INDEX "Movies_tmdb_id_key" ON "Movies"("tmdb_id");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "Reviews_id_key" ON "Reviews"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Reviews_user_Id_tmdb_id_key" ON "Reviews"("user_Id", "tmdb_id");
+
 -- AddForeignKey
 ALTER TABLE "Reviews" ADD CONSTRAINT "Reviews_user_Id_fkey" FOREIGN KEY ("user_Id") REFERENCES "Users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Reviews" ADD CONSTRAINT "Reviews_movie_Id_fkey" FOREIGN KEY ("movie_Id") REFERENCES "Movies"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Reviews" ADD CONSTRAINT "Reviews_tmdb_id_fkey" FOREIGN KEY ("tmdb_id") REFERENCES "Movies"("tmdb_id") ON DELETE RESTRICT ON UPDATE CASCADE;

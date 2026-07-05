@@ -22,7 +22,7 @@ model Movies {
   id           Int   @id @default(autoincrement()) @db.Integer
   title        String   @db.VarChar(255)
   overview     String?  @db.Text
-  tmdb_id      Int      @db.Integer @unique
+  tmdb_id      Int      @unique @db.Integer
   poster_path  String?
   backdrop_path String? @db.VarChar(255)
   genres       Json
@@ -39,7 +39,7 @@ model Movies {
 }
 
 model Reviews {
-  id       Int      @id @default(autoincrement()) @db.Integer @unique
+    id       Int      @id @default(autoincrement()) @db.Integer @unique
   user_Id    Int       //owner
   tmdb_id   Int       
   rating    Float
@@ -48,6 +48,9 @@ model Reviews {
   updatedAt DateTime     @updatedAt @db.Timestamptz(6)
   user      Users        @relation(fields: [user_Id], references: [id])// foregin key to Users model
   movie     Movies       @relation(fields: [tmdb_id], references: [tmdb_id])// foregin key to Movies model
-  
-  @@unique([user_Id, tmdb_id])
+
+  @@unique([user_Id, tmdb_id]) // Composite unique constraint to ensure a user can only have one review per movie
 }
+
+ 
+
