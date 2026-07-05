@@ -6,7 +6,8 @@ import {Review} from "../Types/tmdbtypes.js";
 
 export async function postReview(req:Request, res:Response){
     try{
-        const { userId, tmdbId, rating, reviewText } = req.body as Review;
+        const {tmdbId, rating, reviewText } = req.body as Review;
+        const userId = req.user.id;
         const movieExists = await checkTmdbIdExists(tmdbId);
         if(!movieExists){
             const movieData = await fetchMoviesById(tmdbId);
