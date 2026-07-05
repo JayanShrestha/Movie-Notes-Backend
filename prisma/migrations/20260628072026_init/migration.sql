@@ -16,4 +16,4 @@ ALTER TABLE "Reviews" DROP COLUMN "movie_Id",
 ADD COLUMN     "tmdb_id" INTEGER NOT NULL;
 
 -- AddForeignKey
-ALTER TABLE "Reviews" ADD CONSTRAINT "Reviews_tmdb_id_fkey" FOREIGN KEY ("tmdb_id") REFERENCES "Movies"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Reviews" ADD CONSTRAINT "Reviews_tmdb_id_fkey" FOREIGN KEY ("tmdb_id") REFERENCES "Movies"("tmdb_id") ON DELETE RESTRICT ON UPDATE CASCADE;
