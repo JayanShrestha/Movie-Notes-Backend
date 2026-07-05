@@ -1,4 +1,3 @@
-import bodyParser from "body-parser";
 import bcrypt from "bcrypt";
 import {prisma} from '../db.js';
 

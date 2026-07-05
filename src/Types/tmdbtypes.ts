@@ -128,3 +128,11 @@ export interface NormalizedSearchResult {
   poster_path: string | null;
   release_date: string;
 }
+
+export interface Review {
+  userId: number,
+  tmdbId: number,
+  rating: number,
+  reviewText: string,
+
+}
