@@ -48,6 +48,7 @@ model Reviews {
   updatedAt DateTime     @updatedAt @db.Timestamptz(6)
   user      Users        @relation(fields: [user_Id], references: [id])// foregin key to Users model
   movie     Movies       @relation(fields: [tmdb_id], references: [tmdb_id])// foregin key to Movies model
+  @@unique([user_Id, tmdb_id])
 
  
 }
