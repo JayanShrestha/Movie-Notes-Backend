@@ -40,4 +40,6 @@ export async function createMovie(movie: NormalizedMovie){// creates a movie in 
         throw new Error("Error creating movie");
     }
 
-            }
+}
+
+
