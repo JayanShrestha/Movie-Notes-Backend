@@ -23,11 +23,12 @@ catch(err){
 }
 
 //function to fetch movie data using popularity
-export async function fetchPopularMovies(page:number = 1):Promise<NormalizedPopularResponse> {
+export async function fetchPopularMovies(page:number):Promise<NormalizedPopularResponse> {
+  const pageNumber = page || 1; // Default to page 1 if no page number is provided
   try{
     const response = await axios.get<TMDBPopularResponse>(Base_URL+"/movie/popular",{params:{
       api_key:api_key,
-      page:page,
+      page:pageNumber,
     }})
     const result = normalizePopularMovie(response.data);
     return result;
