@@ -8,7 +8,7 @@ import reviewsRoutes from "./src/routes/reviews.routes.js";
 const app = express();
 app.use(cors());
 app.use(express.json());
-const port = 3000;
+const port = process.env.PORT || 3000;
 const saltRounds = 10;
 
 app.use(express.static("public"));
