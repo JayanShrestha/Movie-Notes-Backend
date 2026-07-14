@@ -1,5 +1,5 @@
 import { Router } from "express";
-import {getMovieById, getPopularMovies, getSearchResults} from "../controllers/movies.controller.js";
+import {getMovieById, getPopularMovies, getSearchResults, getReviewsForMovie} from "../controllers/movies.controller.js";
 
 const router = Router();
 
@@ -11,6 +11,9 @@ router.get("/popular", getPopularMovies);
 
 // Get /tmdb/search
 router.get("/search", getSearchResults);
+
+//return list of reviews for that specific movie
+router.get("/movies/:id", getReviewsForMovie );
 
 //Get /tmdbfor testing
 router.get("/", (req, res) => {

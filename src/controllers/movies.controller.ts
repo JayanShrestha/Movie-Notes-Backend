@@ -1,5 +1,6 @@
 import {Request, Response} from "express";
 import {fetchMoviesById, fetchPopularMovies, fetchSearchResults} from "../services/tmdb.service.js";
+import {readReviewByMovieId} from "../services/reviews.service.js";
 
 export async function getMovieById(req:Request, res:Response){
     try{
@@ -32,5 +33,19 @@ export async function getSearchResults(req: Request, res: Response){
     } catch (error) {
         console.error(`Error fetching search results: ${error}`);
         res.status(500).json({ error: "Failed to fetch search results" });
+    }
+}
+
+export async function getReviewsForMovie(req:Request, res:Response){
+    try{
+        const idString = req.params.id as string;
+        const id = parseInt(idString);
+        const review =  await readReviewByMovieId(id);
+        return review;
+
+    }
+    catch (error){
+        console.error(`Error fetching reviews for the movie: ${error} `);
+            res.status(500).json({error: "Failed to fetch reviews for the movie"});
     }
 }
