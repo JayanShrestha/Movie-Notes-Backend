@@ -1,12 +1,13 @@
 import {Request, Response} from "express";
-import {createReview, updateReview, deleteReview, checkReviewOwnership, readReviewByMovieId, readReviewByUserId, readReviewByIds} from "../services/reviews.service.js";
+import {createReview, updateReview, deleteReview, checkReviewOwnership, readReviewByIds, readReviewByUserId} from "../services/reviews.service.js";
 import {checkTmdbIdExists, createMovie} from "../services/movies.service.js";
 import {fetchMoviesById} from "../services/tmdb.service.js";
 import {Review} from "../Types/tmdbtypes.js";
 
 export async function postReview(req:Request, res:Response){
     try{
-        const {userId, tmdbId, rating, reviewText } = req.body as Review;
+        const userId = req.user.id;
+        const {tmdbId, rating, reviewText } = req.body as Review;
         const movieExists = await checkTmdbIdExists(tmdbId);
         if(!movieExists){
             const movieData = await fetchMoviesById(tmdbId);
@@ -24,21 +25,10 @@ export async function postReview(req:Request, res:Response){
     }
 }
 
-export async function getReviewsByMovieId(req:Request, res:Response){
-    try{
-        const {tmdbId} = req.body;
-        const reviews = await readReviewByMovieId(tmdbId);
-        res.json(reviews);
-    } catch (error) {
-        console.error(`Error fetching reviews: ${error}`);
-        res.status(500).json({ error: "Failed to fetch reviews" });
-    }
-}
-
 export async function getReviewsByUserId(req: Request, res: Response){
     try{
-        const { userId } = req.body;
-        const reviews = await readReviewByUserId(userId);
+        const id= req.user.id;
+        const reviews = await readReviewByUserId(id);
         res.json(reviews);
     } catch (error) {
         console.error(`Error fetching reviews: ${error}`);
@@ -48,7 +38,8 @@ export async function getReviewsByUserId(req: Request, res: Response){
 
 export async function getReviewsByIds(req: Request, res: Response){
     try{
-        const { userId, tmdbId } = req.body;
+        const userId = req.user.id;
+        const tmdbId  = req.body.tmdbId;
         const reviews = await readReviewByIds(userId, tmdbId);
         res.json(reviews);
     }
@@ -60,8 +51,8 @@ export async function getReviewsByIds(req: Request, res: Response){
 
 export async function updateReviewById(req:Request, res:Response){
     try{
-       
-        const { reviewId, userId, rating, reviewText } = req.body;
+        const userId = req.user.id;
+        const { reviewId, rating, reviewText } = req.body;
         const review = await updateReview(reviewId, userId, rating, reviewText);
         res.json(review);
     } catch (error) {
@@ -71,7 +62,8 @@ export async function updateReviewById(req:Request, res:Response){
 }
 
 export async function deleteReviewById(req:Request, res:Response){
-        const { reviewId, userId} = req.body;
+        const userId = req.user.id;
+        const reviewId = req.body.reviewId;
     try{
         const review = await deleteReview(reviewId, userId);
         res.json({review, message: "Review deleted successfully"}  );

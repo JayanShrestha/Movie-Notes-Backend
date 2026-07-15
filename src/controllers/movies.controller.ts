@@ -1,6 +1,6 @@
 import {Request, Response} from "express";
 import {fetchMoviesById, fetchPopularMovies, fetchSearchResults} from "../services/tmdb.service.js";
-import {readReviewByMovieId} from "../services/reviews.service.js";
+import { readReviewByMovieId} from "../services/movies.service.js";
 
 export async function getMovieById(req:Request, res:Response){
     try{

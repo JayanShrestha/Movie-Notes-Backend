@@ -1,5 +1,5 @@
 import Router from "express";
-import { postReview, getReviewsByMovieId, updateReviewById, deleteReviewById } from "../controllers/reviews.controller.js";
+import { postReview, updateReviewById, getReviewsByUserId, deleteReviewById } from "../controllers/reviews.controller.js";
 import {authenticate} from "../middleware/auth.js";
 
 const router = Router();
@@ -13,8 +13,8 @@ router.get("/", (req, res)=>{
 // Create Review
 router.post("/post", authenticate, postReview);
 
-// Get Reviews for a Movie
-router.get("/get", authenticate, getReviewsByMovieId);
+// Get Review for a Movie
+router.get("/get", authenticate, getReviewsByUserId);
 
 // Update Review
 router.put("/update", authenticate, updateReviewById);

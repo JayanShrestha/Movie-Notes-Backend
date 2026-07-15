@@ -17,26 +17,16 @@ export async function createReview(userId: number, tmdbId: number, rating: numbe
     }
 }
 
-export async function readReviewByMovieId(tmdbId: number) {
-
-    try {
-        const review = await prisma.reviews.findMany({
-            where: {tmdb_id: tmdbId},   
-        });
-        return review;
-    } catch (error) {
-        console.error(`Error fetching review: ${error}`);
-        throw new Error("Failed to fetch review");
-    }
-}
-
 export async function readReviewByUserId(userId: number) {
 
     try {
         const review = await prisma.reviews.findMany({
             where: {user_Id: userId},  
         });
+        if(review.length>0)
         return review;
+        else 
+        return (`No reviews from the user.`);
     } catch (error) {
         console.error(`Error fetching review: ${error}`);
         throw new Error("Failed to fetch review");
