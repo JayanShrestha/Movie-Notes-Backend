@@ -42,4 +42,18 @@ export async function createMovie(movie: NormalizedMovie){// creates a movie in 
 
 }
 
+export async function readReviewByMovieId(tmdbId: number) {
 
+    try {
+        const review = await prisma.reviews.findMany({
+            where: {tmdb_id: tmdbId},   
+        });
+        if(review.length>0)
+        return review;
+        else
+        return ("No reviews for this movie yet.");
+    } catch (error) {
+        console.error(`Error fetching review: ${error}`);
+        throw new Error("Failed to fetch review");
+    }
+}
