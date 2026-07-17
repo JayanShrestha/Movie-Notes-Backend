@@ -9,7 +9,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 const port = process.env.PORT || 8080;
-const saltRounds = 10;
 
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended:true}));
