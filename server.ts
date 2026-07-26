@@ -18,6 +18,10 @@ app.use(cors({
     allowedHeaders:["Content-Type", "Authorization"],
 }))
 
+app.get("/",(req, res)=>{
+    res.json("The Backend is working");
+})
+
 //testing backend on tmdb routes
 app.use("/tmdb", tmdbRoutes);
 
