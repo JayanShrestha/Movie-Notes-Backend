@@ -20,6 +20,10 @@ jobs:
       - name: Configure Docker authentication
         run: |
             gcloud auth configure-docker ${{ secrets.GCP_REGION }}-docker.pkg.dev
+     
+      - name: Generate Prisma Client
+        run: npx prisma generate
+     
       - name: Build Docker image
         run: |
             docker build -t ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/movienotes/backend:${{ github.sha }} .

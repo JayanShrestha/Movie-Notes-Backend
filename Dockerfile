@@ -7,7 +7,7 @@ RUN npm install
 #Copy source code and build the application
 COPY . .
 #Generate Prisma client INSIDE the container
-RUN npx prisma Generate
+RUN npx prisma generate
 #Build TypeScript
 RUN npm run build
 #Create the runner container
