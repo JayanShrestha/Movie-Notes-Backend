@@ -6,6 +6,9 @@ COPY package*.json ./
 RUN npm install 
 #Copy source code and build the application
 COPY . .
+#Generate Prisma client INSIDE the container
+RUN npx prisma Generate
+#Build TypeScript
 RUN npm run build
 #Create the runner container
 FROM node:20-alpine
