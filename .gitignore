@@ -6,3 +6,4 @@ dist/
 build/
 src/generated/prisma/
 key.json
+prisma.config.ts
