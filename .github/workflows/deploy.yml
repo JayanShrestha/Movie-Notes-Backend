@@ -27,6 +27,10 @@ jobs:
       - name: Build Docker image
         run: |
             docker build -t ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/movienotes/backend:${{ github.sha }} .
+    
+      - name: Authenticate Docker to Artifact Registry
+        run: gcloud auth configure-docker ${{ secrets.GCP_REGION }}-docker.pkg.dev
+
       - name: Push Docker image
         run: | 
             docker push ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/movienotes/backend:${{ github.sha }}
