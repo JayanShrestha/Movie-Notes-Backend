@@ -24,18 +24,16 @@ jobs:
         run: npx prisma generate
      
       - name: Build Docker image
-        run: |
-            docker build -t ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/movienotes/backend:${{ github.sha }} .
+        run: docker build -t ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/movienotes/backend:${{ github.sha }} .
     
       - name: Authenticate Docker to Artifact Registry
         run: gcloud auth configure-docker ${{ secrets.GCP_REGION }}-docker.pkg.dev
 
       - name: Push Docker image
-        run: | 
-            docker push ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/movienotes/backend:${{ github.sha }}
+        run: docker push ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/movienotes/backend:${{ github.sha }}
+      
       - name: Deploy to Cloud Run
-        run: |
-         gcloud run deploy movienotes-backend \
+        run: gcloud run deploy movienotes-backend \
             --image ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/movienotes/backend:${{ github.sha }} \
             --region ${{ secrets.GCP_REGION }} \
             --platform managed \
